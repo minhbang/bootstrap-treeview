@@ -157,7 +157,7 @@
 
 	Tree.prototype.destroy = function () {
 
-		if (!this.initialized) return;
+		if (!this.initialized) {return;}
 
 		this.$wrapper.remove();
 		this.$wrapper = null;
@@ -239,7 +239,7 @@
 	*/
 	Tree.prototype.setInitialStates = function (node, level) {
 
-		if (!node.nodes) return;
+		if (!node.nodes) {return;}
 		level += 1;
 
 		var parent = node;
@@ -299,11 +299,11 @@
 
 	Tree.prototype.clickHandler = function (event) {
 
-		if (!this.options.enableLinks) event.preventDefault();
+		if (!this.options.enableLinks) {event.preventDefault();}
 
 		var target = $(event.target);
 		var node = this.findNode(target);
-		if (!node || node.state.disabled) return;
+		if (!node || node.state.disabled) {return;}
 
 		var classList = target.attr('class') ? target.attr('class').split(' ') : [];
 		if ((classList.indexOf('expand-icon') !== -1)) {
@@ -342,13 +342,13 @@
 	};
 
 	Tree.prototype.toggleExpandedState = function (node, options) {
-		if (!node) return;
+		if (!node) {return;}
 		this.setExpandedState(node, !node.state.expanded, options);
 	};
 
 	Tree.prototype.setExpandedState = function (node, state, options) {
 
-		if (state === node.state.expanded) return;
+		if (state === node.state.expanded) {return;}
 
 		if (state && node.nodes) {
 
@@ -376,13 +376,13 @@
 	};
 
 	Tree.prototype.toggleSelectedState = function (node, options) {
-		if (!node) return;
+		if (!node) {return;}
 		this.setSelectedState(node, !node.state.selected, options);
 	};
 
 	Tree.prototype.setSelectedState = function (node, state, options) {
 
-		if (state === node.state.selected) return;
+		if (state === node.state.selected) {return;}
 
 		if (state) {
 
@@ -410,13 +410,13 @@
 	};
 
 	Tree.prototype.toggleCheckedState = function (node, options) {
-		if (!node) return;
+		if (!node) {return;}
 		this.setCheckedState(node, !node.state.checked, options);
 	};
 
 	Tree.prototype.setCheckedState = function (node, state, options) {
 
-		if (state === node.state.checked) return;
+		if (state === node.state.checked) {return;}
 
 		if (state) {
 
@@ -439,7 +439,7 @@
 
 	Tree.prototype.setDisabledState = function (node, state, options) {
 
-		if (state === node.state.disabled) return;
+		if (state === node.state.disabled) {return;}
 
 		if (state) {
 
@@ -489,7 +489,7 @@
 	// structure we build the tree one node at a time
 	Tree.prototype.buildTree = function (nodes, level) {
 
-		if (!nodes) return;
+		if (!nodes) {return;}
 		level += 1;
 
 		var _this = this;
@@ -509,15 +509,13 @@
                         if(Object.keys(node).length > 0){
                             $.each(node, function(k, v) {
                                 // We match any data-* JSON property, except data-nodeid which is used internally
-                                if (k.match(/^data\-/) &&  (!k.match(/^data\-nodeid/)) )
-                                    treeItem.attr(k, v);
+                                if (k.match(/^data\-/) && (!k.match(/^data\-nodeid/))) {treeItem.attr(k, v);}
                             });
                         }
 
 
 		        // Add title attribute
-			if (_this.options.enableTitles)
-				treeItem.attr('title', node.text);
+			if (_this.options.enableTitles) {treeItem.attr('title', node.text);}
 
 			// Add indent/spacer to mimic tree structure
 			for (var i = 0; i < (level - 1); i++) {
@@ -620,7 +618,7 @@
 	// 2. node|data assigned color overrides
 	Tree.prototype.buildStyleOverride = function (node) {
 
-		if (node.state.disabled) return '';
+		if (node.state.disabled) {return '';}
 
 		var color = node.color;
 		var backColor = node.backColor;
@@ -1172,7 +1170,7 @@
 
 		modifier = modifier || 'g';
 		attribute = attribute || 'text';
-		regx = regx || true;
+		regx = typeof regx !== 'undefined' ?  regx : true;
 
 		var _this = this;
 		return $.grep(this.nodes, function (node) {
