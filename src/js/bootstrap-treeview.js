@@ -304,7 +304,7 @@
 		var target = $(event.target);
 		var node = this.findNode(target);
 		if (!node || node.state.disabled) return;
-		
+
 		var classList = target.attr('class') ? target.attr('class').split(' ') : [];
 		if ((classList.indexOf('expand-icon') !== -1)) {
 
@@ -312,12 +312,12 @@
 			this.render();
 		}
 		else if ((classList.indexOf('check-icon') !== -1)) {
-			
+
 			this.toggleCheckedState(node, _default.options);
 			this.render();
 		}
 		else {
-			
+
 			if (node.selectable) {
 				this.toggleSelectedState(node, _default.options);
 			} else {
@@ -500,7 +500,7 @@
 				.addClass(node.state.checked ? 'node-checked' : '')
 				.addClass(node.state.disabled ? 'node-disabled': '')
 				.addClass(node.state.selected ? 'node-selected' : '')
-				.addClass(node.searchResult ? 'search-result' : '') 
+				.addClass(node.searchResult ? 'search-result' : '')
 				.attr('data-nodeid', node.nodeId)
 				.attr('style', _this.buildStyleOverride(node));
 
@@ -513,8 +513,8 @@
                                     treeItem.attr(k, v);
                             });
                         }
-				
-				
+
+
 		        // Add title attribute
 			if (_this.options.enableTitles)
 				treeItem.attr('title', node.text);
@@ -547,13 +547,13 @@
 
 			// Add node icon
 			if (_this.options.showIcon) {
-				
-				var classList = ['node-icon'];
+
+				classList = ['node-icon'];
 
 				classList.push(node.icon || _this.options.nodeIcon);
 				if (node.state.selected) {
 					classList.pop();
-					classList.push(node.selectedIcon || _this.options.selectedIcon || 
+					classList.push(node.selectedIcon || _this.options.selectedIcon ||
 									node.icon || _this.options.nodeIcon);
 				}
 
@@ -566,9 +566,9 @@
 			// Add check / unchecked icon
 			if (_this.options.showCheckbox) {
 
-				var classList = ['check-icon'];
+				classList = ['check-icon'];
 				if (node.state.checked) {
-					classList.push(_this.options.checkedIcon); 
+					classList.push(_this.options.checkedIcon);
 				}
 				else {
 					classList.push(_this.options.uncheckedIcon);
@@ -694,7 +694,7 @@
 		badge: '<span class="badge"></span>'
 	};
 
-	Tree.prototype.css = '.treeview .list-group-item{cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}'
+	Tree.prototype.css = '.treeview .list-group-item{cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}';
 
 
 	/**
@@ -919,7 +919,7 @@
 			while (parentNode) {
 				this.setExpandedState(parentNode, true, options);
 				parentNode = this.getParent(parentNode);
-			};
+			}
 		}, this));
 
 		this.render();
@@ -934,7 +934,7 @@
 		this.forEachIdentifier(identifiers, options, $.proxy(function (node, options) {
 			this.toggleExpandedState(node, options);
 		}, this));
-		
+
 		this.render();
 	};
 
@@ -1084,7 +1084,7 @@
 
 		$.each(identifiers, $.proxy(function (index, identifier) {
 			callback(this.identifyNode(identifier), options);
-		}, this));	
+		}, this));
 	};
 
 	/*
@@ -1126,7 +1126,7 @@
 			// and when identifying result to be cleared
 			$.each(results, function (index, node) {
 				node.searchResult = true;
-			})
+			});
 		}
 
 		// If revealResults, then render is triggered from revealNode
@@ -1155,9 +1155,9 @@
 		});
 
 		if (options.render) {
-			this.render();	
+			this.render();
 		}
-		
+
 		this.$element.trigger('searchCleared', $.extend(true, {}, results));
 	};
 
@@ -1168,16 +1168,17 @@
 		@param {optional String} attribute - Attribute to compare pattern against
 		@return {Array} nodes - Nodes that match your criteria
 	*/
-	Tree.prototype.findNodes = function (pattern, modifier, attribute) {
+	Tree.prototype.findNodes = function (pattern, modifier, attribute, regx) {
 
 		modifier = modifier || 'g';
 		attribute = attribute || 'text';
+		regx = regx || true;
 
 		var _this = this;
 		return $.grep(this.nodes, function (node) {
 			var val = _this.getNodeValue(node, attribute);
 			if (typeof val === 'string') {
-				return val.match(new RegExp(pattern, modifier));
+				return regx ? val.match(new RegExp(pattern, modifier)) : (val === pattern);
 			}
 		});
 	};
