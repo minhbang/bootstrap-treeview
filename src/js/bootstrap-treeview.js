@@ -1176,7 +1176,7 @@
 		return $.grep(this.nodes, function (node) {
 			var val = _this.getNodeValue(node, attribute);
 			if (typeof val === 'string') {
-				return regx ? val.match(new RegExp(pattern, modifier)) : (val === pattern);
+				return regx ? val.match(new RegExp(pattern, modifier)) : (val === pattern + '');
 			}
 		});
 	};
